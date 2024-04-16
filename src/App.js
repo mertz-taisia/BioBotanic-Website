@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 import LandingPage from './components/LandingPage';
 import MyPlantsPage from './components/MyPlantsPage';
+import IrrigationPage from './components/IrrigationPage';
+import LightingPage from './components/LightingPage';
+
 
 function App() {
   return (
@@ -21,21 +24,17 @@ function App() {
               </div>
               <div className="flex items-center bg-[#E5FD99] w-3/4 mb-8 rounded-md">
                 <div className="font-bold text-[#1D4C43] ml-4 m-1">
-                  Home
+                <Link to="/landingpage" className="font-medium text-white ml-2 m-1">Home</Link>
                 </div>
               </div>
               <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
                 <Link to="/myplants" className="font-medium text-white ml-2 m-1">My Plants</Link>
               </div>
               <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
-                <div className="font-medium text-white ml-2 m-1">
-                  Irrigation
-                </div>
+                <Link to="/myirrigation" className="font-medium text-white ml-2 m-1">Irrigation</Link>
               </div>
               <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
-                <div className="font-medium text-white ml-2 m-1">
-                  Lighting
-                </div>
+                <Link to="/mylighting" className="font-medium text-white ml-2 m-1">Lighting</Link>
               </div>
             </div>
           </div>
@@ -43,6 +42,9 @@ function App() {
             {/* Wrap Routes in a Routes element */}
             <Routes>
               <Route path="/myplants" element={<MyPlantsPage />} /> {/* Use element prop instead of component */}
+              <Route path="/myirrigation" element={<IrrigationPage />} /> {/* Use element prop instead of component */}
+              <Route path="/mylighting" element={<LightingPage />} /> {/* Use element prop instead of component */}
+              <Route path="/landingpage" element={<LandingPage />} /> {/* Use element prop instead of component */}
               <Route path="/" element={<LandingPage />} /> {/* Use element prop instead of component */}
             </Routes>
           </div>

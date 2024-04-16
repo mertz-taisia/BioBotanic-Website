@@ -96,7 +96,7 @@ function LandingPage() {
                             <div class="text-[#464646] italic">Looks a little healthier!</div>
                             <div class="text-[#a2a2a2] mt-4">March 12th</div>
                             <div class="text-[#464646] italic">Starting to grow new leaves :)</div>  
-                            <div class="flex justify-center w-full bg-red-500 rounder-sm">
+                            <div class="flex justify-center w-full bg-red-500 rounded-">
                               <div class="">a</div>
                             </div>
                           </div>

@@ -5,6 +5,7 @@ import LandingPage from './components/LandingPage';
 import MyPlantsPage from './components/MyPlantsPage';
 import IrrigationPage from './components/IrrigationPage';
 import LightingPage from './components/LightingPage';
+import TestVideoUplaod from './components/TestVideoUplaod';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
               <Route path="/mylighting" element={<LightingPage />} /> {/* Use element prop instead of component */}
               <Route path="/landingpage" element={<LandingPage />} /> {/* Use element prop instead of component */}
               <Route path="/" element={<LandingPage />} /> {/* Use element prop instead of component */}
+              <Route path="/video" element={<TestVideoUplaod />} /> {/* Use element prop instead of component */}
             </Routes>
           </div>
         </div>

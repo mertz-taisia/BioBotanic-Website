@@ -1,3 +1,10 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Iter:wght@400;700&display=swap'); */
+
+.my-iter-font {
+  font-family: 'Iter', sans-serif;
+}
+
+
 .App {
   text-align: center;
 }

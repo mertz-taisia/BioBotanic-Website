@@ -1,8 +1,12 @@
 import Basil from "../images/basil.png"; 
 import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 function LandingPage() {
-  
+  const [startDate, setStartDate] = useState(new Date());
+
   const [weather, setWeather] = useState({ 
     temp: null,
     date: null,
@@ -254,24 +258,27 @@ function LandingPage() {
       <div className="w-1/3 h-full">
             <div className="flex flex-col w-full h-full ">
               <div className="w-full h-1/6 p-1 ">
-                <div class="flex w-full h-full bg-white rounded-md p-4">
+                
+                <div class="flex w-full h-full bg-white rounded-md p-3">
                   <div class="flex flex-col w-1/3 h-full justify-center items-center text-center">
-                    <div class="text-4xl mt-2">16</div>
-                    <div class="text-base mb-2">April</div>
+                    <div class="text-5xl mt-1">16</div>
+                    <div class="text-xl mb-1">April</div>
                     <svg width="84" height="3" viewBox="0 0 84 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="84" height="3" fill="#1D4C43"/>
                     </svg>
 
                   </div>
                   <div class="flex w-2/3 h-full justify-center items-center text-center">
-                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="22" cy="22" r="22" fill="#FFE168"/>
                     </svg>
-                    <div class="text-4xl">22</div>
-                    <div class="flex h-1/4 flex-row">
-                      <button className="text-blue-500 hover:text-blue-600">°C</button>
-                        |
-                      <button className="text-gray-400 hover:text-gray-500">°F</button>
+                    <div class="flex flex-row">
+                      <div class="text-5xl ml-4">22</div>
+                      <div class="flex flex-row items-start">
+                        <button class="text-blue-500 hover:text-blue-600">°C</button>
+                        <span class="mx-1 text-gray-400">|</span>
+                        <button class="text-gray-400 hover:text-gray-500">°F</button>
+                      </div>
                     </div>
                   </div>
                   {/* <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4">
@@ -297,7 +304,13 @@ function LandingPage() {
                 </div>
               </div>
               <div className="w-full h-2/6 p-1">
-                <div class="w-full h-full bg-white rounded-md">5</div>
+                <div class="w-full h-full bg-white rounded-md">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    inline
+                  />
+                </div>
               </div>
               <div className="w-full h-3/6 p-1">
                 <div class="w-full h-full bg-white rounded-md">

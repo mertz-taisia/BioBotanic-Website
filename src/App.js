@@ -11,7 +11,7 @@ import TestVideoUplaod from './components/TestVideoUplaod';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App font-iter ">
         <div className="flex flex-row items-center justify-center w-screen h-screen">
           <div className="flex justify-center w-1/6 h-screen bg-[#1D4C43]">
             <div className="text-left items-left w-4/6 mt-8">

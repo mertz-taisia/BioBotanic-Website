@@ -30,8 +30,8 @@ export default function MiniCalendar(props) {
         view={"month"}
         tileDisabled={({ date }) => isDateInFuture(date)}
         tileContent={<Text color='brand.500'></Text>}
-        prevLabel={<Icon as={MdChevronLeft} w='24px' h='24px' mt='4px' />}
-        nextLabel={<Icon as={MdChevronRight} w='24px' h='24px' mt='4px' />}
+        prevLabel={<Icon as={MdChevronLeft} w='24px' h='24px' mt='1px' background='red' />}
+        nextLabel={<Icon as={MdChevronRight} w='24px' h='24px' mt='1px' />}
       />
     </Card>
   );

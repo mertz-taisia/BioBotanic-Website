@@ -49,10 +49,10 @@ function CircularProgressBar({ strokeWidth, sqSize, percentage, irrigation }) {
         />
         {/* Percentage Text */}
         <text
-          className="circle-text text-6xl text-[#7E7E7E]"
+          className="circle-text text-5xl text-[#7E7E7E]"
           x="50%"
           y="50%"
-          dy="-10" 
+          dy="-5" 
           textAnchor="middle"
           alignmentBaseline="central">
           {`${percentage}%`}

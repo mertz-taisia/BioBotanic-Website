@@ -4,11 +4,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import MiniCalendar from './MiniCalendar.js';
+import MyCalendar from './MyCalendar.js';
 import PlantCard from './PlantCard.js';
 import Notes from './Notes.js';
 import Logs from './Logs.js';
 import SensorCard from "./SensorCard.js";
 import WeatherCard from "./WeatherCard.js";
+import PlantCardMyPlants from "./PlantCardMyPlants.js";
 
 
 function LandingPage() {
@@ -21,8 +23,11 @@ function LandingPage() {
           <div className="flex flex-row items-center justify-center w-full h-full">
             <div className="w-full h-full">
               <div className="flex flex-col items-center justify-center w-full h-full">
-                  <div className="w-full h-1/3 p-1">
-                    <PlantCard></PlantCard>
+                  <div className="w-full h-1/3">
+                      <PlantCardMyPlants
+                        info={{ type: "Basil"}}
+                        inGreenhouse = {true}
+                        ></PlantCardMyPlants>
                   </div>
                   <div className="w-full h-2/3">
                     <div className="flex flex-row items-center justify-center w-full h-full">
@@ -50,18 +55,18 @@ function LandingPage() {
               <div className="w-full h-1/6 p-1 ">
                 <WeatherCard></WeatherCard>
               </div>
-              <div className="w-full h-2/6 p-1">
+              <div className="w-full h-auto p-1">
                 <div class="w-full h-full bg-white rounded-md p-2">
-                  <MiniCalendar></MiniCalendar>
+                  <MyCalendar></MyCalendar>
                 </div>
               </div>
-              <div className="w-full h-3/6 p-1">
+              <div className="w-full h-full p-1">
                 <div class="w-full h-full bg-white rounded-md">
                    <Logs></Logs>
                 </div>
               </div>
             </div>
-          </div>
+      </div>
 
     </div>
   );

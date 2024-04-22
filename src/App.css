@@ -92,3 +92,14 @@
   fill: #7E7E7E;
   text-anchor: middle;
 }
+
+.custom-date-style {
+  color: #FFFFFF;
+  background-color: #3F51B5;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

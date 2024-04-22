@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import MiniCalendar from './MiniCalendar.js';
+import MyCalendar from './MyCalendar.js';
 import Logs from './Logs.js';
 import WeatherCard from "./WeatherCard.js";
 import CircularProgressBar from "./CircularProgressBar.js";
@@ -63,7 +63,7 @@ function IrrigationPage() {
                     <div class="flex w-full h-full bg-white rounded-md p-6 justify-center items-center">
                       <CircularProgressBar
                         strokeWidth="15"
-                        sqSize="200"
+                        sqSize="185"
                         percentage="75"
                         irrigation = {true} 
                       />
@@ -71,13 +71,14 @@ function IrrigationPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-row w-full h-2/5">
+                  <div className="flex flex-row w-full h-1/3">
                     <div className="w-8/12 h-2/5 p-1">
                       <div class="flex items-center w-full h-full bg-white rounded-md p-2">
                         <div class="flex items-center w-full h-full bg-white rounded-md p-8 text-[#7E7E7E]">
                           Run irrigation system for 
                           <textarea
-                            className="bg-[#E2F2F8] mx-2 resize-none h-8 focus:outline-none focus:bg-[#4ACBFE] p-1 text-white"
+                            type="number"
+                            className="bg-[#E2F2F8] mx-2 resize-none h-8 focus:outline-none p-1 text-[#a2a2a2]"
                             value={irrigationInput}
                             onChange={hanldeIrrigationInputChange}
                           />
@@ -92,23 +93,23 @@ function IrrigationPage() {
                 </div>
           </div>
       
-      <div className="w-1/3 h-full">
+          <div className="w-1/3 h-full">
             <div className="flex flex-col w-full h-full ">
-              <div className="w-full h-1/6 p-1">
+              <div className="w-full h-1/6 p-1 ">
                 <WeatherCard></WeatherCard>
               </div>
-              <div className="w-full h-2/6 p-1">
+              <div className="w-full h-auto p-1">
                 <div class="w-full h-full bg-white rounded-md p-2">
-                  <MiniCalendar></MiniCalendar>
+                  <MyCalendar></MyCalendar>
                 </div>
               </div>
-              <div className="w-full h-3/6 p-1">
+              <div className="w-full h-full p-1">
                 <div class="w-full h-full bg-white rounded-md">
                    <Logs></Logs>
                 </div>
               </div>
             </div>
-          </div>
+      </div>
 
     </div>
   );

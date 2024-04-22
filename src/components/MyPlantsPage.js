@@ -4,6 +4,7 @@ import MiniCalendar from './MiniCalendar.js';
 import Logs from './Logs.js';
 import WeatherCard from "./WeatherCard.js";
 import PlantCardMyPlants from './PlantCardMyPlants.js';
+import MyCalendar from './MyCalendar.js';
 import NewPlantCard from './NewPlantCard.js';
 import '../App.css';
 
@@ -117,23 +118,23 @@ function MyPlantsPage() {
                   )}  
           </div>
       
-      <div className="w-1/3 h-full">
+          <div className="w-1/3 h-full">
             <div className="flex flex-col w-full h-full ">
-              <div className="w-full h-1/6 p-1">
+              <div className="w-full h-1/6 p-1 ">
                 <WeatherCard></WeatherCard>
               </div>
-              <div className="w-full h-2/6 p-1">
+              <div className="w-full h-auto p-1">
                 <div class="w-full h-full bg-white rounded-md p-2">
-                  <MiniCalendar></MiniCalendar>
+                  <MyCalendar></MyCalendar>
                 </div>
               </div>
-              <div className="w-full h-3/6 p-1">
+              <div className="w-full h-full p-1">
                 <div class="w-full h-full bg-white rounded-md">
                    <Logs></Logs>
                 </div>
               </div>
             </div>
-          </div>
+      </div>
 
     </div>
   );

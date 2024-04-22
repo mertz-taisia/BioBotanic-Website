@@ -20,7 +20,6 @@ export default function MiniCalendar(props) {
       direction='column'
       w='90%'
       h='50%'
-      background="red"
       // p='20px 15px'
       // h='max-content'
       {...rest}>

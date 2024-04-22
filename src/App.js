@@ -1,14 +1,88 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'; // Import Routes from react-router-dom
-
+import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import MyPlantsPage from './components/MyPlantsPage';
 import IrrigationPage from './components/IrrigationPage';
 import LightingPage from './components/LightingPage';
 import TestVideoUplaod from './components/TestVideoUplaod';
 
+function NavigationLink() {
+  const location = useLocation();
+
+  return (
+    <div className="flex flex-col w-full">
+      <div className="mb-8 w-full">
+        <NavLink
+          to="/landingpage"
+          className={({ isActive }) =>
+            `flex font-medium w-2/3 p-2 ${isActive ? 'bg-[#E5FD99] rounded-md' : 'bg-[#1D4C43]'}`
+          }
+        >
+          {({ isActive }) => (
+            <span className={` ${isActive ? 'text-[#1D4C43] font-semibold' : 'text-white font-medium'}`}>
+              Home
+            </span>
+          )}
+        </NavLink>
+      </div>
+      <div className="mb-8 w-full">
+        <NavLink
+          to="/myplantspage"
+          className={({ isActive }) =>
+            `flex font-medium w-2/3 p-2 ${isActive ? 'bg-[#E5FD99] rounded-md' : 'bg-[#1D4C43]'}`
+          }
+        >
+          {({ isActive }) => (
+            <span className={` ${isActive ? 'text-[#1D4C43] font-semibold' : 'text-white font-medium'}`}>
+              My Plants
+            </span>
+          )}
+        </NavLink>
+      </div>
+      <div className="mb-8 w-full">
+        <NavLink
+          to="/irrigationpage"
+          className={({ isActive }) =>
+            `flex font-medium w-2/3 p-2 ${isActive ? 'bg-[#E5FD99] rounded-md' : 'bg-[#1D4C43]'}`
+          }
+        >
+          {({ isActive }) => (
+            <span className={` ${isActive ? 'text-[#1D4C43] font-semibold' : 'text-white font-medium'}`}>
+              Irrigation
+            </span>
+          )}
+        </NavLink>
+      </div>
+      <div className="mb-8 w-full">
+        <NavLink
+          to="/lightingpage"
+          className={({ isActive }) =>
+            `flex font-medium w-2/3 p-2 ${isActive ? 'bg-[#E5FD99] rounded-md' : 'bg-[#1D4C43]'}`
+          }
+        >
+          {({ isActive }) => (
+            <span className={` ${isActive ? 'text-[#1D4C43] font-semibold' : 'text-white font-medium'}`}>
+              Lighting
+            </span>
+          )}
+        </NavLink>
+      </div>
+
+
+
+      
+    </div>
+  );
+}
 
 function App() {
+  
+  const getNavLinkClass = (isActive) => {
+    return isActive 
+      ? "font-bold text-[#1D4C43] ml-2 m-1" 
+      : "font-medium text-white ml-2 m-1";
+  };
+
   return (
     <Router>
       <div className="App font-iter ">
@@ -23,30 +97,19 @@ function App() {
                 </svg>
                 <div className="ml-2 text-lg font-bold">biobotanic</div>
               </div>
-              <div className="flex items-center bg-[#E5FD99] w-3/4 mb-8 rounded-md">
-                <div className="font-bold text-[#1D4C43] ml-4 m-1">
-                <Link to="/landingpage" className="font-medium text-white ml-2 m-1">Home</Link>
-                </div>
-              </div>
-              <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
-                <Link to="/myplants" className="font-medium text-white ml-2 m-1">My Plants</Link>
-              </div>
-              <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
-                <Link to="/myirrigation" className="font-medium text-white ml-2 m-1">Irrigation</Link>
-              </div>
-              <div className="flex items-center bg-[#1D4C43] w-3/4 mb-8 rounded-md">
-                <Link to="/mylighting" className="font-medium text-white ml-2 m-1">Lighting</Link>
-              </div>
+
+              <NavigationLink />
+
             </div>
           </div>
           <div className="w-5/6 h-screen bg-[#F3F6F1]">
             {/* Wrap Routes in a Routes element */}
             <Routes>
-              <Route path="/myplants" element={<MyPlantsPage />} /> {/* Use element prop instead of component */}
-              <Route path="/myirrigation" element={<IrrigationPage />} /> {/* Use element prop instead of component */}
-              <Route path="/mylighting" element={<LightingPage />} /> {/* Use element prop instead of component */}
-              <Route path="/landingpage" element={<LandingPage />} /> {/* Use element prop instead of component */}
               <Route path="/" element={<LandingPage />} /> {/* Use element prop instead of component */}
+              <Route path="/myplantspage" element={<MyPlantsPage />} /> {/* Use element prop instead of component */}
+              <Route path="/irrigationpage" element={<IrrigationPage />} /> {/* Use element prop instead of component */}
+              <Route path="/lightingpage" element={<LightingPage />} /> {/* Use element prop instead of component */}
+              <Route path="/landingpage" element={<LandingPage />} /> {/* Use element prop instead of component */}
               <Route path="/video" element={<TestVideoUplaod />} /> {/* Use element prop instead of component */}
             </Routes>
           </div>

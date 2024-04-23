@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import Basil from "../images/basil.png"; 
 import SnakePlant from "../images/snake_plant.png";
 import GoldenPothos from "../images/golden_pothos.png";
@@ -8,8 +9,10 @@ import MothOrchid from "../images/moth_orchid.png";
 import MarblePothos from "../images/marble_pothos.png";
 import Echeveria from "../images/echeveria.png";
 import RedPrayerPlant from "../images/red_prayer_plant.png";
-import GardenCorton from "../images/garden_corton.png";
+import GardenCroton from "../images/garden_croton.png";
 import Lavendar from "../images/lavendar.png";
+import { fetchPlantType } from '../supabaseService.js';
+
 
 const plantImages = {
     "Basil": Basil,
@@ -22,20 +25,63 @@ const plantImages = {
     "Marble Pothos": MarblePothos,
     "Echeveria": Echeveria,
     "Red Prayer Plant": RedPrayerPlant,
-    "Garden Corton": GardenCorton,
+    "Garden Croton": GardenCroton,
     "Lavendar": Lavendar,
 };
 
 
-function PlantCardMyPlants({info, inGreenhouse}) {
-    const plantImage = plantImages[info.type];
+function PlantCardMyPlants({info, inGreenhouse, newPlant}) {
+    const [plant, setPlant] = useState(null);
+    const [plantImage, setPlantImage] = useState(null);
+    
+    
+    useEffect(() => {
+        const getPlant = async () => {
+        try {
+            console.log("PlantCardMyPlants plant info", info.plant);
+
+            if(newPlant){
+                console.log("PlantCardMyPlants plant info common name", info.plant.common_name);
+                setPlant(info.plant);
+                if (info.plant && info.plant.common_name) {
+                    setPlantImage(plantImages[info.plant.common_name]);
+                    console.log("Image set for:", info.plant.common_name);
+                } else {
+                    console.log("1 Common name not found or mismatch in plantImages keys", info.plant.common_name);
+                }
+            }
+            else{
+                const plantType = await fetchPlantType(info.plant.type);
+                setPlant(plantType);
+                
+                if (plantType && plantType.common_name) {
+                    setPlantImage(plantImages[plantType.common_name]);
+                    console.log("Image set for:", plantType.common_name);
+                } else {
+                    console.log("2 Common name not found or mismatch in plantImages keys", plantType.common_name);
+                }
+            console.log("Plant fetched:", plantType );
+            }
+            
+
+        } 
+        catch (error) {
+            console.error('Error fetching plant:', error);
+            setPlant(null);
+        }
+        };
+
+        getPlant();
+    }, []);
+
+
     return (
         <div className="w-full h-[25vh] p-1">
             <div class="flex flex-row w-full h-full bg-white rounded-md p-2">
             <img class="h-full" src={plantImage}></img>
             <div class = " w-full flex flex-col justify-center text-left ml-8 mr-4">
                 <div class="w-full flex flex-row justify-between">
-                <div class="text-medium font-bold">{info.type}</div>
+                <div class="text-medium font-bold">{plantImage ? plant.common_name : 'Loading...'}</div>
                     
                     {inGreenhouse ? (
                         <div class="flex text-center justify-center items-center w-1/5 rounded-2xl bg-[#D0EBFF]">
@@ -51,7 +97,7 @@ function PlantCardMyPlants({info, inGreenhouse}) {
                         </div>
                     )}
                 </div>
-                <div class="text-sm italic mb-2">Ocimum basilicum</div>
+                <div class="text-sm italic mb-2">{plant ? plant.scientific_name : 'Loading...'}</div>
 
                 <div class="flex flex-row text-center items-center mb-1 ml-4" >
                 <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +114,7 @@ function PlantCardMyPlants({info, inGreenhouse}) {
                 </svg>
 
 
-                <div class="text-sm ml-2 text-[#464646] italic">6.0 - 7.0</div>
+                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.pH_Ranges : 'Loading...'}</div>
                 </div>
 
                 <div class="flex flex-row text-center items-center mb-1 ml-4" >
@@ -81,7 +127,7 @@ function PlantCardMyPlants({info, inGreenhouse}) {
 
 
 
-                <div class="text-sm ml-2 text-[#464646] italic">400 - 500 ml</div>
+                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.water_frequency : 'Loading...'}</div>
                 
                 </div>
 
@@ -97,8 +143,8 @@ function PlantCardMyPlants({info, inGreenhouse}) {
                 <path d="M2.19124 7.26817L2.83456 8.03377L2.19124 7.26817ZM12.8118 7.27069L12.168 8.03593L12.8118 7.27069ZM5.10547 1H9.89857V-1H5.10547V1ZM4.10547 5.48836V2H2.10547V5.48836H4.10547ZM1 11.7107C1 10.3152 1.67109 9.01141 2.83456 8.03377L1.54792 6.50257C0.00333621 7.80046 -1 9.63751 -1 11.7107H1ZM7.5 17C3.73799 17 1 14.4742 1 11.7107H-1C-1 15.8942 2.97774 19 7.5 19V17ZM14 11.7107C14 14.4742 11.262 17 7.5 17V19C12.0223 19 16 15.8942 16 11.7107H14ZM12.168 8.03593C13.3299 9.01334 14 10.3162 14 11.7107H16C16 9.63905 14.9981 7.80316 13.4555 6.50545L12.168 8.03593ZM10.8986 2V5.49163H12.8986V2H10.8986ZM2.10547 5.48836C2.10547 5.81385 1.92401 6.18655 1.54792 6.50257L2.83456 8.03377C3.52831 7.45082 4.10547 6.56027 4.10547 5.48836H2.10547ZM13.4555 6.50545C13.0798 6.1894 12.8986 5.81691 12.8986 5.49163H10.8986C10.8986 6.56286 11.475 7.45297 12.168 8.03593L13.4555 6.50545ZM9.89857 1C10.4509 1 10.8986 1.44772 10.8986 2H12.8986C12.8986 0.343145 11.5554 -1 9.89857 -1V1ZM5.10547 -1C3.44862 -1 2.10547 0.343144 2.10547 2H4.10547C4.10547 1.44772 4.55318 1 5.10547 1V-1Z" fill="black" mask="url(#path-5-inside-1_0_1)"/>
                 </svg>
 
-
-                <div class="text-sm ml-2 text-[#464646] italic">above 72°</div>
+                
+                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.temperature_f : 'Loading...'}</div>
                 </div>
                 
                 <div class="flex flex-row text-center items-center ml-4" >
@@ -107,7 +153,7 @@ function PlantCardMyPlants({info, inGreenhouse}) {
                 </svg>
 
 
-                <div class="text-sm ml-2 text-[#464646] italic">prefers direct sunlight</div>
+                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.temperature_f : 'Loading...'}</div>
                 </div>
 
             </div>

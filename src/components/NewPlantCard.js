@@ -8,7 +8,7 @@ import MothOrchid from "../images/moth_orchid.png";
 import MarblePothos from "../images/marble_pothos.png";
 import Echeveria from "../images/echeveria.png";
 import RedPrayerPlant from "../images/red_prayer_plant.png";
-import GardenCorton from "../images/garden_corton.png";
+import GardenCroton from "../images/garden_croton.png";
 import Lavendar from "../images/lavendar.png";
 
 const plantImages = {
@@ -22,7 +22,7 @@ const plantImages = {
     "Marble Pothos": MarblePothos,
     "Echeveria": Echeveria,
     "Red Prayer Plant": RedPrayerPlant,
-    "Garden Corton": GardenCorton,
+    "Garden Croton": GardenCroton,
     "Lavendar": Lavendar,
 };
 

@@ -6,6 +6,7 @@ import IrrigationPage from './components/IrrigationPage';
 import LightingPage from './components/LightingPage';
 import TestVideoUplaod from './components/TestVideoUplaod';
 import FetchData from './components/FetchData';
+import { PlantProvider } from './PlantContext'; 
 
 function NavigationLink() {
   const location = useLocation();
@@ -103,7 +104,8 @@ function App() {
 
             </div>
           </div>
-          <div className="w-5/6 h-screen bg-[#F3F6F1]">
+          <PlantProvider>
+          `<div className="w-5/6 h-screen bg-[#F3F6F1]">
             <Routes>
               <Route path="/" element={<LandingPage />} /> 
               <Route path="/myplantspage" element={<MyPlantsPage />} /> 
@@ -113,6 +115,7 @@ function App() {
               <Route path="/video" element={<TestVideoUplaod />} />
             </Routes>
           </div>
+        </PlantProvider>`
         </div>
       </div>
     </Router>

@@ -7,26 +7,36 @@ import MyCalendar from './MyCalendar.js';
 import NewPlantCard from './NewPlantCard.js';
 import AddPlantCard from './AddPlantCard.js';
 import '../App.css';
+import { fetchPlantTypeByName } from '../supabaseService.js';
+import { usePlants } from '../PlantContext';
 
 
 function MyPlantsPage() {
-  const [startDate, setStartDate] = useState(new Date());
+  const { myPlants} = usePlants();
   const [addingNote, setAddingNote] = useState(false);
   const [newPlant, setNewPlant] = useState(false);
   const [noteText, setNoteText] = useState('');
-  const [newPlantType, setNewPlantType] = useState('');
+  const [newPlantType, setNewPlantType] = useState();
+
 
   const handleAddNoteClick = () => {
     console.log('Add Note Clicked'); 
     setAddingNote(true);
   };
   
-  const handleNewPlantClick = (type) => {
-    console.log('Adding New Plant'); 
-    setNewPlant(true);
-    setNewPlantType(type);
-    console.log('New plant type: ', newPlantType); 
-};
+
+  const handleNewPlantClick = async (type) => {
+      console.log('Adding New Plant');
+      setNewPlant(true);
+      try {
+          const plantTypeData = await fetchPlantTypeByName(type);
+          setNewPlantType(plantTypeData);
+          console.log('New plant type: ', plantTypeData);
+      } catch (error) {
+          console.error('Failed to fetch plant type by name:', error);
+      }
+  };
+
 
 
   const handleNoteChange = (e) => {
@@ -42,12 +52,18 @@ function MyPlantsPage() {
     <div className="flex flex-row p-2 w-full h-screen bg-[#eff0ec]">
       <div class="flex flex-col w-full">
         {newPlant ? (<div class="h-full">
-            <PlantCardMyPlants
-              info={{ type: newPlantType}}
-              inGreenhouse = {false}
-              ></PlantCardMyPlants>
+        {newPlantType && (
+                      <> 
+                        <PlantCardMyPlants
+                        info={{ plant: newPlantType}}
+                        inGreenhouse = {false}
+                        newPlant = {true}
+                        ></PlantCardMyPlants>
+                      </>
+                    )}
+            
               <AddPlantCard type={newPlantType} newPlant={newPlant} addingNote={addingNote} onPlantTypeChange={setNewPlantType} onCancelSetNewPlant = {setNewPlant} onCancelSetAddingNote = {setAddingNote} />
-        </div>):(<div class="h-full">
+            </div>):(<div class="h-full">
                 {addingNote ? (
                   <div class="h-full overflow-x-auto scrollable-area">
                       <div class="flex flex-row">
@@ -84,29 +100,13 @@ function MyPlantsPage() {
                   ) : (
                     <div class="h-full">
                       <div class="h-5/6 overflow-x-auto scrollable-area">
+                        {myPlants.map((myPlant) => (
                         <PlantCardMyPlants
-                                  info={{ type: "Basil"}}
-                                  inGreenhouse = {true}
-                                  ></PlantCardMyPlants>
-                        <PlantCardMyPlants
-                                  info={{ type: "Snake Plant"}}
-                                  inGreenhouse = {false}
-                                  ></PlantCardMyPlants>
-                        <PlantCardMyPlants
-                                  info={{ type: "Spider Plant"}}
-                                  inGreenhouse = {false}
-                                  ></PlantCardMyPlants>
-                                  
-                        <PlantCardMyPlants
-                                  info={{ type: "Moth Orchid"}}
-                                  inGreenhouse = {false}
-                                  ></PlantCardMyPlants>
-                        
-                        <PlantCardMyPlants
-                                  info={{ type: "Marble Pothos"}}
-                                  inGreenhouse = {false}
-                                  ></PlantCardMyPlants>
-                                
+                                  info={{ plant: myPlant}}
+                                  inGreenhouse = {myPlant.in_greenhouse}
+                                  newPlant = {false}
+                        ></PlantCardMyPlants>
+                        ))}                                
                         </div>
                       <div className="flex justify-center items-center w-full h-[15vh] p-1">
                         <div class="flex flex-row w-full h-full justify-center items-center bg-white rounded-md p-2">

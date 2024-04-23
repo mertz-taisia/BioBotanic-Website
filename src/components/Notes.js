@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import Note from './Note.js';
-import supabase from '../supabaseClient'; 
 import { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant } from '../supabaseService.js';
 
 
@@ -35,7 +34,7 @@ function Notes() {
     console.log('Notes after update:', notes);
     }, [notes]);
 
-    
+
     const handleSaveNote = async () => {
       if (!noteText.trim()) {
         alert('Please enter a note text.');

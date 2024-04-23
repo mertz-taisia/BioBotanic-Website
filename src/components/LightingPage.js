@@ -9,12 +9,32 @@ import MyCalendar from './MyCalendar.js';
 import PlantCard from './PlantCard.js';
 import '../App.css';
 import axios from 'axios'
+import useSensorData from './SensorData.js';
+import supabase from '../supabaseClient.js'
 
 
 function LightingPage() {
   const [startDate, setStartDate] = useState(new Date());
   const [irrigationInput, setIrrigationInput] = useState('');
+  const { moisture, brightness, data, error } = useSensorData();
 
+  const checkTimeAndInsert = async () => {
+    const now = new Date();
+    if (now.getMinutes() === 1 && now.getSeconds() === 0) {
+      const { data, error } = await supabase
+        .from('Lighting_Readings')
+        .insert([
+          { lighting_timestamp: now.toISOString(), Light_sensor_value: moisture,my_plant_type: 1}  // Use the appropriate column and value for your schema
+        ]);
+
+      if (error) {
+        console.error('Error inserting data:', error);
+      } else {
+        console.log('Data inserted on the hour:', data);
+      }
+    }
+  }
+  
   const hanldeIrrigationInputChange = (e) => {
     setIrrigationInput(e.target.value);
   };
@@ -31,6 +51,7 @@ function LightingPage() {
   };
   
   // const [soilMoistureData, setSoilMoistureData] = useState([]);
+  checkTimeAndInsert()
 
   const soilMoistureData = [
     { timestamp: "2024-04-21T00:00:00Z", soil_moisture: 20 },
@@ -72,7 +93,7 @@ function LightingPage() {
                       <CircularProgressBar
                         strokeWidth="15"
                         sqSize="185"
-                        percentage="30"
+                        percentage={Math.abs(brightness-255)/255}
                         irrigation = {false} 
                       />
                       <SoilMoistureBarChart data={soilMoistureData} irrigation = {false} />

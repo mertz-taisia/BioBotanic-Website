@@ -8,12 +8,16 @@ import SoilMoistureBarChart from './SoilMoistureBarChart';
 import PlantCard from './PlantCard.js';
 import '../App.css';
 import axios from 'axios'
+import useSensorData from './SensorData.js';
+import supabase from '../supabaseClient.js'
 
 
 
 function IrrigationPage() {
+  const { moisture, brightness, indata, error } = useSensorData();
   const [startDate, setStartDate] = useState(new Date());
   const [irrigationInput, setIrrigationInput] = useState('');
+  const [data, setData] = useState('');
 
   const hanldeIrrigationInputChange = (e) => {
     setIrrigationInput(e.target.value);
@@ -29,7 +33,24 @@ function IrrigationPage() {
       console.error('Error sending data to server:', error); // Log any errors
     });
   };
-  
+
+  const checkTimeAndInsert = async () => {
+    const now = new Date();
+    if (now.getMinutes() === 0 && now.getSeconds() === 0) {
+      const { data, error } = await supabase
+        .from('Irrigation_Readings')
+        .insert([
+          { moisture_timestamp: now.toISOString(), moisture_sensor_value: moisture,my_plant_type: 1}  // Use the appropriate column and value for your schema
+        ]);
+
+      if (error) {
+        console.error('Error inserting data:', error);
+      } else {
+        console.log('Data inserted on the hour:', data);
+      }
+    }
+  }
+  checkTimeAndInsert()
   // const [soilMoistureData, setSoilMoistureData] = useState([]);
 
   const soilMoistureData = [
@@ -72,7 +93,7 @@ function IrrigationPage() {
                       <CircularProgressBar
                         strokeWidth="15"
                         sqSize="185"
-                        percentage="75"
+                        percentage={parseInt(moisture/10)}
                         irrigation = {true} 
                       />
                       <SoilMoistureBarChart data={soilMoistureData} irrigation = {true} />

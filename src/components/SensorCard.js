@@ -15,7 +15,7 @@ function SensorCard() {
           const j = parseInt(parts[3]);
           console.log(m,j)
           if (!isNaN(m) && !isNaN(j)) {
-              setMoisture(m/1000);
+              setMoisture(m);
               setBrightness(j);
               console.log(moisture)
               console.log(brightness)
@@ -61,7 +61,7 @@ function SensorCard() {
 
             <div class="flex flex-col ml-4">
               <div>Lighting</div>
-              <div>{brightness}</div>
+              <div>{Math.abs(brightness-255)/255}%</div>
             </div>
           </div>
           <div class="flex flex-row w-1/3 justify-center items-center">
@@ -80,7 +80,7 @@ function SensorCard() {
 
             <div class="flex flex-col ml-4">
               <div>Soil Moisture</div>
-              <div>{moisture}</div>
+              <div>{parseInt(moisture/10)}%</div>
             </div>
           </div>
           <div class="flex flex-row w-1/3 justify-center items-center">

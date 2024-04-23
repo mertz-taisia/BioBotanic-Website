@@ -9,7 +9,7 @@ import MarblePothos from "../images/marble_pothos.png";
 import Echeveria from "../images/echeveria.png";
 import RedPrayerPlant from "../images/red_prayer_plant.png";
 import GardenCroton from "../images/garden_croton.png";
-import Lavendar from "../images/lavendar.png";
+import Lavender from "../images/lavender.png";
 
 const plantImages = {
     "Basil": Basil,
@@ -23,7 +23,7 @@ const plantImages = {
     "Echeveria": Echeveria,
     "Red Prayer Plant": RedPrayerPlant,
     "Garden Croton": GardenCroton,
-    "Lavendar": Lavendar,
+    "Lavender": Lavender,
 };
 
 function NewPlantCard({ info, onClick }) {

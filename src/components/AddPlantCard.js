@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../App.css';
 
-function AddNewPlant( props ) {
+function AddPlantCard( props ) {
   const navigate = useNavigate(); 
   const { type, onPlantTypeChange } = props;
   const { addingNote, onCancelSetAddingNote } = props;
@@ -14,7 +14,7 @@ function AddNewPlant( props ) {
   const [plantNickName, setPlantNickName] = useState('');
   const [plantType, setPlantType] = useState(type);
 
-  const plants = ["Basil", "Snake Plant", "Golden Pathos", "Aloe Vera", "Spider Plant", "Peace Lily", "Moth Orchid", "Marble Pothos", "Echeveria", "Red Prayer Plant", "Garden Corton", "Lavendar"];
+  const plants = ["Basil", "Snake Plant", "Golden Pathos", "Aloe Vera", "Spider Plant", "Peace Lily", "Moth Orchid", "Marble Pothos", "Echeveria", "Red Prayer Plant", "Garden Croton", "Lavender"];
 
   const handleAddPlantClick = () => {
     navigate('/'); 
@@ -90,4 +90,4 @@ function AddNewPlant( props ) {
   );
 }
 
-export default AddNewPlant;
+export default AddPlantCard;

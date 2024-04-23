@@ -10,7 +10,7 @@ import MarblePothos from "../images/marble_pothos.png";
 import Echeveria from "../images/echeveria.png";
 import RedPrayerPlant from "../images/red_prayer_plant.png";
 import GardenCroton from "../images/garden_croton.png";
-import Lavendar from "../images/lavendar.png";
+import Lavender from "../images/lavender.png";
 import { fetchPlantType } from '../supabaseService.js';
 
 
@@ -26,7 +26,7 @@ const plantImages = {
     "Echeveria": Echeveria,
     "Red Prayer Plant": RedPrayerPlant,
     "Garden Croton": GardenCroton,
-    "Lavendar": Lavendar,
+    "Lavender": Lavender,
 };
 
 
@@ -114,7 +114,7 @@ function PlantCardMyPlants({info, inGreenhouse, newPlant}) {
                 </svg>
 
 
-                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.pH_Ranges : 'Loading...'}</div>
+                <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.ph_ranges : 'Loading...'}</div>
                 </div>
 
                 <div class="flex flex-row text-center items-center mb-1 ml-4" >
@@ -122,9 +122,6 @@ function PlantCardMyPlants({info, inGreenhouse, newPlant}) {
                 <path d="M7.78441 1L1.96627 6.57629C1.06756 7.58924 0.816453 8.97757 1.12705 10.9151C1.17749 11.2298 1.26661 11.5382 1.40648 11.8246C2.2376 13.526 3.92948 15.0961 8 14.9954" stroke="black" stroke-width="1.25" stroke-linecap="round"/>
                 <path d="M8.21559 1L14.0337 6.57629C14.9324 7.58924 15.1835 8.97757 14.873 10.9151C14.8225 11.2298 14.7334 11.5382 14.5935 11.8246C13.7624 13.526 12.0705 15.0961 8 14.9954" stroke="black" stroke-width="1.25" stroke-linecap="round"/>
                 </svg>
-
-
-
 
 
                 <div class="text-sm ml-2 text-[#464646] italic">{plant ? plant.water_frequency : 'Loading...'}</div>

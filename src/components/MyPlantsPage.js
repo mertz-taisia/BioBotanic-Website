@@ -18,6 +18,19 @@ function MyPlantsPage() {
   const [noteText, setNoteText] = useState('');
   const [newPlantType, setNewPlantType] = useState();
 
+  const handlePlantTypeChange = async (swapToType) => {
+    console.log('Changing Plant Type');
+    setNewPlant(true);
+    try {
+        const plantTypeData = await fetchPlantTypeByName(swapToType);
+        setNewPlantType(plantTypeData);
+        console.log('New plant type: ', plantTypeData);
+    } catch (error) {
+        console.error('Failed to fetch plant type by name:', error);
+    }
+};
+
+
 
   const handleAddNoteClick = () => {
     console.log('Add Note Clicked'); 
@@ -37,7 +50,9 @@ function MyPlantsPage() {
       }
   };
 
-
+  useEffect(() => {
+    console.log("PlantCardMyPlants newPlantType", newPlantType);
+  }, [newPlantType]);
 
   const handleNoteChange = (e) => {
     setNoteText(e.target.value);
@@ -55,6 +70,7 @@ function MyPlantsPage() {
         {newPlantType && (
                       <> 
                         <PlantCardMyPlants
+                        key={newPlantType ? newPlantType.id : 'default-key'}
                         info={{ plant: newPlantType}}
                         inGreenhouse = {false}
                         newPlant = {true}
@@ -62,7 +78,9 @@ function MyPlantsPage() {
                       </>
                     )}
             
-              <AddPlantCard type={newPlantType} newPlant={newPlant} addingNote={addingNote} onPlantTypeChange={setNewPlantType} onCancelSetNewPlant = {setNewPlant} onCancelSetAddingNote = {setAddingNote} />
+            {newPlantType && (
+              <AddPlantCard type={newPlantType.common_name} newPlant={newPlant} addingNote={addingNote} onPlantTypeChange={handlePlantTypeChange} onCancelSetNewPlant = {setNewPlant} onCancelSetAddingNote = {setAddingNote} />
+            )}
             </div>):(<div class="h-full">
                 {addingNote ? (
                   <div class="h-full overflow-x-auto scrollable-area">
@@ -81,20 +99,20 @@ function MyPlantsPage() {
                       <div class="flex flex-row">
                           <NewPlantCard info={{ type: "Echeveria"}} onClick={() => handleNewPlantClick("Echeveria")}></NewPlantCard>
                           <NewPlantCard info={{ type: "Red Prayer Plant"}} onClick={() => handleNewPlantClick("Red Prayer Plant")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Garden Corton"}} onClick={() => handleNewPlantClick("Garden Corton")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Lavendar"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Garden Croton"}} onClick={() => handleNewPlantClick("Garden Croton")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Lavender"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
                       </div>
                       <div class="flex flex-row">
                           <NewPlantCard info={{ type: "Echeveria"}} onClick={() => handleNewPlantClick("Echeveria")}></NewPlantCard>
                           <NewPlantCard info={{ type: "Red Prayer Plant"}} onClick={() => handleNewPlantClick("Red Prayer Plant")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Garden Corton"}} onClick={() => handleNewPlantClick("Garden Corton")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Lavendar"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Garden Croton"}} onClick={() => handleNewPlantClick("Garden Croton")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Lavender"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
                       </div>
                       <div class="flex flex-row">
                           <NewPlantCard info={{ type: "Echeveria"}} onClick={() => handleNewPlantClick("Echeveria")}></NewPlantCard>
                           <NewPlantCard info={{ type: "Red Prayer Plant"}} onClick={() => handleNewPlantClick("Red Prayer Plant")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Garden Corton"}} onClick={() => handleNewPlantClick("Garden Corton")}></NewPlantCard>
-                          <NewPlantCard info={{ type: "Lavendar"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Garden Croton"}} onClick={() => handleNewPlantClick("Garden Croton")}></NewPlantCard>
+                          <NewPlantCard info={{ type: "Lavender"}} onClick={() => handleNewPlantClick("Lavendar")}></NewPlantCard>
                       </div>
                   </div>
                   ) : (

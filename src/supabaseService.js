@@ -14,7 +14,6 @@ const fetchPlantInGreenhouse = async () => {
     .single();
 
   if (error) throw error;
-  // console.log("supabaseService: plant in greenhouse: ", data);
   return data;
 };
 
@@ -25,10 +24,7 @@ const fetchNotesForPlant = async (plantId) => {
     .select('*')
     .eq('my_plant_id', plantId);
   
-    
-
   if (error) throw error;
-  // console.log("supabaseService: notes for plant: ", data);
   return data;
 };
 
@@ -39,10 +35,26 @@ const fetchMyPlants = async () => {
     
 
   if (error) throw error;
-  // console.log("supabaseService: my plants: ", data);
   return data;
 };
 
+
+
+
+const addPlantToMyPlants = async (created_at, nickname, type, date_added_to_greenhouse, in_greenhouse) => {
+  const { data, error } = await supabase
+    .from('MyPlant')
+    .insert([
+      { created_at: created_at, nickname: nickname, type: type, date_added_to_greenhouse: date_added_to_greenhouse, in_greenhouse: in_greenhouse, date_removed_from_greenhouse: null, time_lights_on: null   }
+    ])
+    .select();
+    
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
 
 const fetchPlantType = async (plantTypeId) => {
   const { data, error } = await supabase
@@ -84,14 +96,11 @@ const addNoteForPlant = async (plantId, noteText) => {
   
     
   if (error) {
-    // console.error('Error inserting note:', error.message);
     throw error;
   }
-
-  // console.log("supabaseService: add note: ", data);
 
   return data;
 };
 
 
-export { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant, fetchMyPlants, fetchPlantType, fetchPlantTypeByName };
+export { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant, fetchMyPlants, fetchPlantType, fetchPlantTypeByName, addPlantToMyPlants };

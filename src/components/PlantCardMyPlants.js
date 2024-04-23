@@ -47,7 +47,6 @@ function PlantCardMyPlants({info, inGreenhouse}) {
                         </div>
                     ):(
                         <div class="flex text-center justify-center items-center w-1/5 rounded-2xl bg-[#E1E1E1]">
-                            
                             <div class="ml-1 mr-1 text-[#999999] italic">Inactive</div>
                         </div>
                     )}

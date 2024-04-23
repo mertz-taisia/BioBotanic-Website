@@ -26,11 +26,16 @@ const plantImages = {
     "Lavendar": Lavendar,
 };
 
-function NewPlantCard({ info }) {
+function NewPlantCard({ info, onClick }) {
     const plantImage = plantImages[info.type];
 
+    const testClick = () => {
+        console.log('Component clicked:', info.type);
+        onClick();
+    };
+
     return (
-        <div className="w-1/4 h-[35vh] p-1">
+        <div className="w-1/4 h-[35vh] p-1"  onClick={onClick}>
             <div class="flex w-full h-full bg-white rounded-md p-2">
                 <div class="flex flex-col">
                     <img class="w-full" src={plantImage}></img>

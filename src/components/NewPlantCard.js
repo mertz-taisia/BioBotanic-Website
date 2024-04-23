@@ -35,7 +35,7 @@ function NewPlantCard({ info, onClick }) {
     };
 
     return (
-        <div className="w-1/4 h-[35vh] p-1"  onClick={onClick}>
+        <div className="w-1/4 h-[35vh] p-1 cursor-pointer"  onClick={onClick}>
             <div class="flex w-full h-full bg-white rounded-md p-2">
                 <div class="flex flex-col">
                     <img class="w-full" src={plantImage}></img>

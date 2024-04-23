@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../App.css';
 
-
 function AddNewPlant( props ) {
   const navigate = useNavigate(); 
   const { type, onPlantTypeChange } = props;
@@ -18,7 +17,7 @@ function AddNewPlant( props ) {
   const plants = ["Basil", "Snake Plant", "Golden Pathos", "Aloe Vera", "Spider Plant", "Peace Lily", "Moth Orchid", "Marble Pothos", "Echeveria", "Red Prayer Plant", "Garden Corton", "Lavendar"];
 
   const handleAddPlantClick = () => {
-    navigate('/landingpage'); 
+    navigate('/'); 
     alert(`New plant ${plantType} added to Greenhouse with nickname ${plantNickName}`);
     console.log('Plant ', plantType, ' to Greenhouse with nickname ', plantNickName, ' with initial note ', intialNote); 
   };

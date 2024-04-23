@@ -10,7 +10,6 @@ import PlantCard from './PlantCard.js';
 import '../App.css';
 
 
-
 function LightingPage() {
   const [startDate, setStartDate] = useState(new Date());
   const [irrigationInput, setIrrigationInput] = useState('');

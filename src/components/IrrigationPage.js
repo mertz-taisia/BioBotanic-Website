@@ -7,6 +7,7 @@ import CircularProgressBar from "./CircularProgressBar.js";
 import SoilMoistureBarChart from './SoilMoistureBarChart';
 import PlantCard from './PlantCard.js';
 import '../App.css';
+import axios from 'axios'
 
 
 
@@ -20,6 +21,13 @@ function IrrigationPage() {
 
   const hanldeIrrigationManualOverride = () => {
     console.log('Irrigation Set:', irrigationInput);
+    axios.post('http://localhost:8000/send', { data: "i "+irrigationInput })
+    .then(response => {
+      console.log(response.data); // Log the response from the server
+    })
+    .catch(error => {
+      console.error('Error sending data to server:', error); // Log any errors
+    });
   };
   
   // const [soilMoistureData, setSoilMoistureData] = useState([]);

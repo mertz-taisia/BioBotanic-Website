@@ -159,13 +159,13 @@ function MyPlantsPage() {
               <div className="w-full h-1/6 p-1 ">
                 <WeatherCard></WeatherCard>
               </div>
-              <div className="w-full h-auto p-1">
+              <div className="w-full h-[40%] p-1">
                 <div class="w-full h-full bg-white rounded-md p-2">
                   <MyCalendar></MyCalendar>
                 </div>
               </div>
-              <div className="w-full h-full p-1">
-                <div class="w-full h-full bg-white rounded-md">
+              <div className="w-full h-[45%] p-1 ">
+                <div class="w-full h-full rounded-md bg-white">
                    <Logs></Logs>
                 </div>
               </div>

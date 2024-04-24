@@ -12,7 +12,6 @@ import axios from 'axios'
 import useSensorData from './SensorData.js';
 import supabase from '../supabaseClient.js'
 
-
 function LightingPage() {
   const [startDate, setStartDate] = useState(new Date());
   const [irrigationInput, setIrrigationInput] = useState('');

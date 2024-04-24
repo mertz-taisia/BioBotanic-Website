@@ -11,10 +11,34 @@ import Logs from './Logs.js';
 import SensorCard from "./SensorCard.js";
 import WeatherCard from "./WeatherCard.js";
 import PlantCardMyPlants from "./PlantCardMyPlants.js";
+import { fetchPlantInGreenhouse, fetchPlantType } from '../supabaseService.js';
+import { usePlants } from '../PlantContext';
 
 
 function LandingPage() {
+  const { currentPlant, plantType } = usePlants();
   const [startDate, setStartDate] = useState(new Date());
+  const [plantInGreenhouse, setPlantInGreenhouse] = useState([]);
+  const [plantInGreenhouseType, setPlantInGreenhouseType] = useState([]);
+
+  useEffect(() => {
+    const getMainPlantType = async () => {
+      try {
+        if (plantType) {
+          console.log("LandingPage: Plant Type fetched in plantType:", plantType); 
+        }
+        if (currentPlant) {
+          console.log("LandingPage: Current Plant fetched in plantType:", currentPlant); 
+        }
+      } 
+      catch (error) {
+        console.error('LandingPage: Error fetching plant or notes:', error);
+      }
+    };
+  
+    getMainPlantType();
+  }, [currentPlant, plantType]);
+
 
   return (
     <div className="flex flex-row p-2 w-full h-screen bg-[#eff0ec]">
@@ -24,10 +48,15 @@ function LandingPage() {
             <div className="w-full h-full">
               <div className="flex flex-col items-center justify-center w-full h-full">
                   <div className="w-full h-1/3">
-                      <PlantCardMyPlants
-                        info={{ type: "Basil"}}
-                        inGreenhouse = {true}
+                  {plantType && currentPlant && (
+                      <> 
+                        <PlantCardMyPlants
+                          info={{ plant: currentPlant}}
+                          inGreenhouse = {currentPlant.in_greenhouse}
+                          newPlant = {false}
                         ></PlantCardMyPlants>
+                      </>
+                    )}
                   </div>
                   <div className="w-full h-2/3">
                     <div className="flex flex-row items-center justify-center w-full h-full">

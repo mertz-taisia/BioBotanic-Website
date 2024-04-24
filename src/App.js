@@ -5,6 +5,8 @@ import MyPlantsPage from './components/MyPlantsPage';
 import IrrigationPage from './components/IrrigationPage';
 import LightingPage from './components/LightingPage';
 import TestVideoUplaod from './components/TestVideoUplaod';
+import FetchData from './components/FetchData';
+import { PlantProvider } from './PlantContext'; 
 
 function NavigationLink() {
   const location = useLocation();
@@ -13,7 +15,7 @@ function NavigationLink() {
     <div className="flex flex-col w-full">
       <div className="mb-8 w-full">
         <NavLink
-          to="/landingpage"
+          to="/"
           className={({ isActive }) =>
             `flex font-medium w-2/3 p-2 ${isActive ? 'bg-[#E5FD99] rounded-md' : 'bg-[#1D4C43]'}`
           }
@@ -102,17 +104,18 @@ function App() {
 
             </div>
           </div>
-          <div className="w-5/6 h-screen bg-[#F3F6F1]">
-            {/* Wrap Routes in a Routes element */}
+          <PlantProvider>
+          `<div className="w-5/6 h-screen bg-[#F3F6F1]">
             <Routes>
-              <Route path="/" element={<LandingPage />} /> {/* Use element prop instead of component */}
-              <Route path="/myplantspage" element={<MyPlantsPage />} /> {/* Use element prop instead of component */}
-              <Route path="/irrigationpage" element={<IrrigationPage />} /> {/* Use element prop instead of component */}
-              <Route path="/lightingpage" element={<LightingPage />} /> {/* Use element prop instead of component */}
-              <Route path="/landingpage" element={<LandingPage />} /> {/* Use element prop instead of component */}
-              <Route path="/video" element={<TestVideoUplaod />} /> {/* Use element prop instead of component */}
+              <Route path="/" element={<LandingPage />} /> 
+              <Route path="/myplantspage" element={<MyPlantsPage />} /> 
+              <Route path="/irrigationpage" element={<IrrigationPage />} /> 
+              <Route path="/lightingpage" element={<LightingPage />} /> 
+              <Route path="/landingpage" element={<LandingPage />} /> 
+              <Route path="/video" element={<TestVideoUplaod />} />
             </Routes>
           </div>
+        </PlantProvider>`
         </div>
       </div>
     </Router>

@@ -8,8 +8,8 @@ import MothOrchid from "../images/moth_orchid.png";
 import MarblePothos from "../images/marble_pothos.png";
 import Echeveria from "../images/echeveria.png";
 import RedPrayerPlant from "../images/red_prayer_plant.png";
-import GardenCorton from "../images/garden_corton.png";
-import Lavendar from "../images/lavendar.png";
+import GardenCroton from "../images/garden_croton.png";
+import Lavender from "../images/lavender.png";
 
 const plantImages = {
     "Basil": Basil,
@@ -22,15 +22,20 @@ const plantImages = {
     "Marble Pothos": MarblePothos,
     "Echeveria": Echeveria,
     "Red Prayer Plant": RedPrayerPlant,
-    "Garden Corton": GardenCorton,
-    "Lavendar": Lavendar,
+    "Garden Croton": GardenCroton,
+    "Lavender": Lavender,
 };
 
-function NewPlantCard({ info }) {
+function NewPlantCard({ info, onClick }) {
     const plantImage = plantImages[info.type];
 
+    const testClick = () => {
+        console.log('Component clicked:', info.type);
+        onClick();
+    };
+
     return (
-        <div className="w-1/4 h-[35vh] p-1">
+        <div className="w-1/4 h-[35vh] p-1 cursor-pointer"  onClick={onClick}>
             <div class="flex w-full h-full bg-white rounded-md p-2">
                 <div class="flex flex-col">
                     <img class="w-full" src={plantImage}></img>

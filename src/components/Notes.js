@@ -1,66 +1,136 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Note from './Note.js';
+import { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant } from '../supabaseService.js';
+
 
 
 function Notes() {
-    const [addingNote, setAddingNote] = useState(false);
-    const [noteText, setNoteText] = useState('');
+  const [notes, setNotes] = useState([]);
+  const [addingNote, setAddingNote] = useState(false);
+  const [noteText, setNoteText] = useState('');
+  const [currentPlant, setCurrentPlant] = useState(null);
   
-    const handleAddNoteClick = () => {
-      setAddingNote(true);
+
+  useEffect(() => {
+    const getNotes = async () => {
+      try {
+        const plant = await fetchPlantInGreenhouse();
+        setCurrentPlant(plant);
+        if (plant) {
+          const notes = await fetchNotesForPlant(plant.id);
+          setNotes(notes);
+        }
+      } catch (error) {
+        console.error('Error fetching plant or notes:', error);
+      }
     };
+
+    getNotes();
+  }, [notes]);
+
   
-    const handleNoteChange = (e) => {
-      setNoteText(e.target.value);
+
+    const handleSaveNote = async () => {
+      if (!noteText.trim()) {
+        alert('Please enter a note text.');
+        return;
+      }
+    
+      try {
+        const newNote = await addNoteForPlant(currentPlant.id, noteText);
+        console.log('New note added:', newNote);
+    
+        if (newNote && newNote.length > 0) {
+          setNotes(prevNotes => [...prevNotes, ...newNote]);  // Assuming newNote is an array with one item
+          setNoteText('');
+          setAddingNote(false);
+        } else {
+          console.log('No note was added, check your API function.');
+        }
+      } catch (error) {
+        console.error('Error adding note:', error);
+        alert(error.message);
+      }
     };
+    
   
-    const handleSaveNote = () => {
-      // Implement the logic to save the note here
-      console.log('Saving note:', noteText);
-      // Hide the input and button after saving
-      setAddingNote(false);
+  
+
+  const handleAddNoteClick = () => {
+    setAddingNote(true);
+  };
+
+  const handleNoteChange = (e) => {
+    setNoteText(e.target.value);
+  };
+
+
+  const formatDate = (isoString) => {
+    if (!isoString) {
+      console.error('Missing or invalid date string:', isoString);
+      return "Date not available";
+    }
+  
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date string:', isoString);
+      return "Invalid date";
+    }
+
+    const nth = (day) => {
+      if (day > 3 && day < 21) return 'th';
+      switch (day % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+      }
     };
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const monthName = monthNames[monthIndex];
+    return `${monthName} ${day}${nth(day)}`;
+  };
+  
 
 
     return (
         <div class="w-full h-full bg-white rounded-md flex flex-col text-left justify-left p-4">
                 <div>Notes</div>
-                <div class="text-sm">
-                <Note
-                    info={{ date: "March 12th", text: "*Added Basil to Greenhouse*" }}
-                    isNote={false}
-                    intoGreenhouse={true}
-                />
-                <Note
-                    info={{ date: "March 12th", text: "Added plant to greenhouse, looks to be in pretty poor condition" }}
-                    isNote={true}
-                    intoGreenhouse={true}
-                />
-                <Note
-                    info={{ date: "March 14th", text: "Looks a little healthier!" }}
-                    isNote={true}
-                    intoGreenhouse={true}
-                />
-                <Note
-                    info={{ date: "March 20th", text: "Starting to grow new leaves :)" }}
-                    isNote={true}
-                    intoGreenhouse={true}
-                />
+                <div class="text-sm overflow-x-auto scrollable-area">
+                  {notes.map((note) => (
+                    <Note
+                      key={note.id}
+                      info={{ 
+                        date: formatDate(note.created_at), 
+                        text: note.note
+                      }}
+                      isNote={true}
+                      intoGreenhouse={true}
+                    />
+                  ))}
+                  </div>
+                  <div>
+
                 {addingNote ? (
-          <div className="flex flex-col">
-            <textarea
-              className="border p-2 rounded-md mb-2"
-              value={noteText}
-              onChange={handleNoteChange}
-              placeholder="Type your note here..."
-            />
-            <button
-              className="bg-blue-500 text-white p-2 rounded-md"
-              onClick={handleSaveNote}
-            >
-              Add
-            </button>
-          </div>
+                  <div className="flex flex-col">
+                    <textarea
+                      className="border p-2 rounded-md mb-2"
+                      value={noteText}
+                      onChange={handleNoteChange}
+                      placeholder="Type your note here..."
+                    />
+                    <button
+                      className="bg-blue-500 text-white p-2 rounded-md"
+                      onClick={handleSaveNote}
+                    >
+                      Add
+                    </button>
+                  </div>
         ) : (
           <div 
             className="flex justify-center w-full border-2 border-[#BABABA] border-dashed rounded-md mt-4 p-2 cursor-pointer"

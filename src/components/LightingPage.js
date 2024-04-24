@@ -4,15 +4,17 @@ import MiniCalendar from './MiniCalendar.js';
 import Logs from './Logs.js';
 import WeatherCard from "./WeatherCard.js";
 import CircularProgressBar from "./CircularProgressBar.js";
-import SoilMoistureBarChart from './SoilMoistureBarChart';
+import BarChart from './BarChart.js';
 import MyCalendar from './MyCalendar.js';
 import PlantCard from './PlantCard.js';
 import '../App.css';
 import axios from 'axios'
 import useSensorData from './SensorData.js';
 import supabase from '../supabaseClient.js'
+import { usePlants } from '../PlantContext';
 
 function LightingPage() {
+  const { lightingData } = usePlants();
   const [startDate, setStartDate] = useState(new Date());
   const [irrigationInput, setIrrigationInput] = useState('');
   const { moisture, brightness, data, error } = useSensorData();
@@ -23,7 +25,7 @@ function LightingPage() {
       const { data, error } = await supabase
         .from('Lighting_Readings')
         .insert([
-          { lighting_timestamp: now.toISOString(), Light_sensor_value: moisture,my_plant_type: 1}  // Use the appropriate column and value for your schema
+          { lighting_timestamp: now.toISOString(), light_sensor_value: moisture,my_plant_type: 1} 
         ]);
 
       if (error) {
@@ -49,36 +51,7 @@ function LightingPage() {
     });
   };
   
-  // const [soilMoistureData, setSoilMoistureData] = useState([]);
   checkTimeAndInsert()
-
-  const soilMoistureData = [
-    { timestamp: "2024-04-21T00:00:00Z", soil_moisture: 20 },
-    { timestamp: "2024-04-21T01:00:00Z", soil_moisture: 25 },
-    { timestamp: "2024-04-21T02:00:00Z", soil_moisture: 30 },
-    { timestamp: "2024-04-21T03:00:00Z", soil_moisture: 35 },
-    { timestamp: "2024-04-21T04:00:00Z", soil_moisture: 40 },
-    { timestamp: "2024-04-21T05:00:00Z", soil_moisture: 45 },
-    { timestamp: "2024-04-21T06:00:00Z", soil_moisture: 50 },
-    { timestamp: "2024-04-21T07:00:00Z", soil_moisture: 55 },
-    { timestamp: "2024-04-21T08:00:00Z", soil_moisture: 60 },
-    { timestamp: "2024-04-21T09:00:00Z", soil_moisture: 65 },
-    { timestamp: "2024-04-21T10:00:00Z", soil_moisture: 70 },
-    { timestamp: "2024-04-21T11:00:00Z", soil_moisture: 75 },
-    { timestamp: "2024-04-21T12:00:00Z", soil_moisture: 80 },
-    { timestamp: "2024-04-21T13:00:00Z", soil_moisture: 10 },
-    { timestamp: "2024-04-21T14:00:00Z", soil_moisture: 12 },
-    { timestamp: "2024-04-21T15:00:00Z", soil_moisture: 30 },
-    { timestamp: "2024-04-21T16:00:00Z", soil_moisture: 70 },
-    { timestamp: "2024-04-21T17:00:00Z", soil_moisture: 70 },
-    { timestamp: "2024-04-21T18:00:00Z", soil_moisture: 69 },
-    { timestamp: "2024-04-21T19:00:00Z", soil_moisture: 53 },
-    { timestamp: "2024-04-21T20:00:00Z", soil_moisture: 43 },
-    { timestamp: "2024-04-21T21:00:00Z", soil_moisture: 23 },
-    { timestamp: "2024-04-22T20:00:00Z", soil_moisture: 64 },
-    { timestamp: "2024-04-23T20:00:00Z", soil_moisture: 45 },
-    { timestamp: "2024-04-24T20:00:00Z", soil_moisture: 5 },
-  ];
 
   return (
     <div className="flex flex-row p-2 w-full h-screen bg-[#eff0ec]">
@@ -95,7 +68,7 @@ function LightingPage() {
                         percentage={Math.abs(brightness-255)/255}
                         irrigation = {false} 
                       />
-                      <SoilMoistureBarChart data={soilMoistureData} irrigation = {false} />
+                      <BarChart data={lightingData} irrigation = {false} />
                     </div>
                   </div>
 
@@ -103,14 +76,14 @@ function LightingPage() {
                     <div className="w-8/12 h-2/5 p-1">
                       <div class="flex items-center w-full h-full bg-white rounded-md p-2">
                         <div class="flex items-center w-full h-full bg-white rounded-md p-8 text-[#7E7E7E]">
-                          Run irrigation system for 
+                          Set light intensity to 
                           <textarea
                             type="number"
                             className="bg-[#fff6d0] mx-2 resize-none h-8 focus:outline-none p-1 text-[#a2a2a2]"
                             value={irrigationInput}
                             onChange={hanldeIrrigationInputChange}
                           />
-                          seconds
+                          %
                         </div>
                       </div>
                     </div>

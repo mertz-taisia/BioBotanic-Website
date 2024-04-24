@@ -17,6 +17,22 @@ const fetchPlantInGreenhouse = async () => {
   return data;
 };
 
+
+const fetchPlantById = async (plantId) => {
+  if (currentPlantCache) {
+    return currentPlantCache; 
+  }
+
+  const { data, error } = await supabase
+    .from('my_plants')
+    .select('*')
+    .eq('id', plantId)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
 const fetchNotesForPlant = async (plantId) => {
   const { data, error } = await supabase
     .from('Notes')
@@ -52,8 +68,6 @@ const addPlantToMyPlants = async (created_at, nickname, type, date_added_to_gree
 
   return data;
 };
-
-
 
 
 const fetchPlantType = async (plantTypeId) => {
@@ -105,4 +119,5 @@ const addNoteForPlant = async (plantId, noteText) => {
 };
 
 
-export { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant, fetchMyPlants, fetchPlantType, fetchPlantTypeByName, addPlantToMyPlants };
+
+export { fetchPlantInGreenhouse, fetchNotesForPlant, addNoteForPlant, fetchMyPlants, fetchPlantType, fetchPlantTypeByName, addPlantToMyPlants, fetchPlantById };

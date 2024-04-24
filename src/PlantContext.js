@@ -10,19 +10,28 @@ export const PlantProvider = ({ children }) => {
   const [currentPlant, setCurrentPlant] = useState(null);
   const [plantType, setPlantType] = useState(null);
   const [myPlants, setMyPlants] = useState([]);
+  const [irrigationData, setIrrigationData] = useState([]);
+  const [lightingData, setLightingData] = useState([]);
+  const [logData, setLogData] = useState([]);
+
 
   useEffect(() => {
     fetchPlantInGreenhouse().then(plant => {
       setCurrentPlant(plant);
-
       if (plant && plant.type) {
         fetchPlantType(plant.type);
       }
-
       fetchMyPlants();
-
     }).catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (currentPlant) {
+      getIrrigationReadings();
+      getLightingReadings();
+      fetchLogs();
+    }
+  }, [currentPlant]);
 
   const fetchPlantType = async (plantTypeId) => {
     const { data, error } = await supabase
@@ -71,6 +80,64 @@ export const PlantProvider = ({ children }) => {
     return data;
   };
 
+  const getIrrigationReadings = async () => {
+    if (currentPlant && currentPlant.id) {
+      try {
+        // Fetch the most recent 24 readings in descending order
+        const { data, error } = await supabase
+          .from('irrigation_readings')
+          .select('moisture_timestamp, moisture_sensor_value')
+          .eq('my_plant_type', currentPlant.id)
+          .order('moisture_timestamp', { ascending: false })
+          .limit(24);  
+  
+        if (error) {
+          console.error("Error fetching irrigation data:", error);
+        } else {
+          // Reverse the data to make it chronological
+          const chronologicalData = data.reverse();
+          console.log("Fetched irrigation data:", chronologicalData);
+          setIrrigationData(chronologicalData);  // Update your state with the chronologically ordered data
+        }
+      } catch (error) {
+        console.error("Error in getIrrigationReadings:", error);
+      }
+    } else {
+      console.log("Current plant or plant ID not set");
+    }
+  }
+  
+  
+
+  const getLightingReadings = async () => {
+    if (currentPlant && currentPlant.id) {
+      try {
+        // Fetch the most recent 24 readings in descending order
+        const { data, error } = await supabase
+          .from('lighting_readings')
+          .select('lighting_timestamp, light_sensor_value')
+          .eq('my_plant_type', currentPlant.id)
+          .order('lighting_timestamp', { ascending: false })
+          .limit(24);
+  
+        if (error) {
+          console.error("Error fetching lighting data:", error);
+        } else {
+          // Reverse the data array to make it chronological
+          const chronologicalData = data.reverse();
+          console.log("Fetched lighting data:", chronologicalData);
+          setLightingData(chronologicalData);  // Update your state with the chronologically ordered data
+        }
+      } catch (error) {
+        console.error("Error in getLightingReadings:", error);
+      }
+    } else {
+      console.log("Current plant or plant ID not set");
+    }
+  }
+  
+  
+
 
   const addNewPlant = async (createdAt, plantNickName, plantTypeId, dateAddedToGreenhouse, intialNote) => {
     try {
@@ -103,7 +170,6 @@ export const PlantProvider = ({ children }) => {
 
       addNoteForPlant(data[0].id, intialNote);
   
-  
       return data;
     } 
     catch (error) {
@@ -113,8 +179,39 @@ export const PlantProvider = ({ children }) => {
   };
   
 
+  
+  const fetchLogs = async () => {
+    if (currentPlant && currentPlant.id) {
+      try {
+        // Fetch the most recent 20 readings in descending order
+        const { data, error } = await supabase
+        .from('logs')
+        .select('*') 
+        .eq('my_plant_id', currentPlant.id)
+        .order('created_at', { ascending: false })
+        .limit(20);   
+
+  
+        if (error) {
+          console.error("Error fetching log data:", error);
+        } 
+        else {
+          // Reverse the data to make it chronological
+          const chronologicalData = data.reverse();
+          console.log("Fetched log data:", chronologicalData);
+          setLogData(chronologicalData); 
+        }
+      } catch (error) {
+        console.error("Error in log data:", error);
+      }
+    } else {
+      console.log("Current plant or plant ID not set");
+    }
+  }
+  
+
   return (
-    <PlantContext.Provider value={{ currentPlant, setCurrentPlant, plantType, setPlantType, myPlants, addNewPlant }}>
+    <PlantContext.Provider value={{ currentPlant, setCurrentPlant, plantType, setPlantType, myPlants, addNewPlant, irrigationData, lightingData, logData }}>
       {children}
     </PlantContext.Provider>
     

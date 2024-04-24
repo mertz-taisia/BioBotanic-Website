@@ -35,30 +35,10 @@ function LandingPage() {
         console.error('LandingPage: Error fetching plant or notes:', error);
       }
     };
-
-    getMainPlantType();
-  }, []);
-
   
-  // useEffect(() => {
-  //   const getMainPlantType = async () => {
-  //     try {
-  //       const plant = await fetchPlantInGreenhouse();
-  //       setPlantInGreenhouse(plant);
-  //       console.log("Plant fetched:", plant);
-  //       if (plant) {
-  //         const plantType = await fetchPlantType(plant.id);
-  //         console.log("Plant Type fetched in LandingPage:", plantType); // Ensure this logs expected data
-  //         setPlantInGreenhouseType(plantType);
-  //       }
-  //     } 
-  //     catch (error) {
-  //       console.error('Error fetching plant or notes:', error);
-  //     }
-  //   };
+    getMainPlantType();
+  }, [currentPlant, plantType]);
 
-  //   getMainPlantType();
-  // }, []);
 
   return (
     <div className="flex flex-row p-2 w-full h-screen bg-[#eff0ec]">
@@ -68,7 +48,7 @@ function LandingPage() {
             <div className="w-full h-full">
               <div className="flex flex-col items-center justify-center w-full h-full">
                   <div className="w-full h-1/3">
-                  {plantType && (
+                  {plantType && currentPlant && (
                       <> 
                         <PlantCardMyPlants
                           info={{ plant: currentPlant}}

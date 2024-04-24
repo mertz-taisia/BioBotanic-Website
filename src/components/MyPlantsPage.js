@@ -79,7 +79,7 @@ function MyPlantsPage() {
                     )}
             
             {newPlantType && (
-              <AddPlantCard type={newPlantType.common_name} newPlant={newPlant} addingNote={addingNote} onPlantTypeChange={handlePlantTypeChange} onCancelSetNewPlant = {setNewPlant} onCancelSetAddingNote = {setAddingNote} />
+              <AddPlantCard type={newPlantType} newPlant={newPlant} addingNote={addingNote} onPlantTypeChange={handlePlantTypeChange} onCancelSetNewPlant = {setNewPlant} onCancelSetAddingNote = {setAddingNote} />
             )}
             </div>):(<div class="h-full">
                 {addingNote ? (

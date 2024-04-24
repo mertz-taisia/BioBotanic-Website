@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../App.css';
+import { addPlantToMyPlants } from '../supabaseService.js';
+import { usePlants } from '../PlantContext';
+
+
 
 function AddPlantCard( props ) {
   const navigate = useNavigate(); 
   const { type, onPlantTypeChange } = props;
   const { addingNote, onCancelSetAddingNote } = props;
   const { newPlant, onCancelSetNewPlant } = props;
+  const { addNewPlant } = usePlants();
+  
 
 
   const [intialNote, setIintialNote] = useState('');
@@ -16,11 +22,35 @@ function AddPlantCard( props ) {
 
   const plants = ["Basil", "Snake Plant", "Golden Pathos", "Aloe Vera", "Spider Plant", "Peace Lily", "Moth Orchid", "Marble Pothos", "Echeveria", "Red Prayer Plant", "Garden Croton", "Lavender"];
 
-  const handleAddPlantClick = () => {
-    navigate('/'); 
-    alert(`New plant ${plantType} added to Greenhouse with nickname ${plantNickName}`);
-    console.log('Plant ', plantType, ' to Greenhouse with nickname ', plantNickName, ' with initial note ', intialNote); 
-  };
+  const handleAddPlantClick = async () => {
+    if (!plantNickName || !plantType) {
+      alert('Please ensure all fields are filled correctly.');
+      return;
+    }
+
+    const createdAt = new Date().toISOString();
+    const dateAddedToGreenhouse = createdAt; 
+
+    try {
+      const newPlant = await addNewPlant(
+        createdAt,
+        plantNickName,
+        plantType.id, 
+        dateAddedToGreenhouse,
+        intialNote
+      );
+
+      console.log('New plant added:', newPlant);
+
+      navigate('/'); 
+      alert(`New plant ${plantType.common_name} added to Greenhouse with nickname ${plantNickName}`);
+    } catch (error) {
+      console.error('Error adding plant:', error);
+      alert(error.message);
+    }
+};
+
+  
 
   const handleIintialNoteChange = (e) => {
     setIintialNote(e.target.value);
@@ -60,7 +90,7 @@ function AddPlantCard( props ) {
               <div class="text-[#7E7E7E] mt-5">Type</div>
               <select
                 className="bg-[#EDEDF0] w-full h-12 focus:outline-none p-1 text-[#a2a2a2]"
-                value={plantType}
+                value={plantType.common_name}
                 onChange={handlePlantTypeChange}
               >
                 <option value="">Select a plant type</option>

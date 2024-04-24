@@ -16,10 +16,8 @@ function Notes() {
       try {
         const plant = await fetchPlantInGreenhouse();
         setCurrentPlant(plant);
-        console.log("Plant fetched:", plant);
         if (plant) {
           const notes = await fetchNotesForPlant(plant.id);
-          console.log("Notes fetched:", notes);
           setNotes(notes);
         }
       } catch (error) {
@@ -28,12 +26,9 @@ function Notes() {
     };
 
     getNotes();
-  }, []);
+  }, [notes]);
 
-  useEffect(() => {
-    console.log('Notes after update:', notes);
-    }, [notes]);
-
+  
 
     const handleSaveNote = async () => {
       if (!noteText.trim()) {

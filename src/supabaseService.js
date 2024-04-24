@@ -18,7 +18,6 @@ const fetchPlantInGreenhouse = async () => {
 };
 
 const fetchNotesForPlant = async (plantId) => {
-  console.log("plantID", plantId);
   const { data, error } = await supabase
     .from('Notes')
     .select('*')
@@ -39,15 +38,13 @@ const fetchMyPlants = async () => {
 };
 
 
-
-
 const addPlantToMyPlants = async (created_at, nickname, type, date_added_to_greenhouse, in_greenhouse) => {
   const { data, error } = await supabase
-    .from('MyPlant')
+    .from('my_plants')
     .insert([
-      { created_at: created_at, nickname: nickname, type: type, date_added_to_greenhouse: date_added_to_greenhouse, in_greenhouse: in_greenhouse, date_removed_from_greenhouse: null, time_lights_on: null   }
+      { created_at, nickname, type, date_added_to_greenhouse, in_greenhouse, date_removed_from_greenhouse: null, time_lights_on: null }
     ])
-    .select();
+    .select();  
     
   if (error) {
     throw error;
@@ -55,6 +52,9 @@ const addPlantToMyPlants = async (created_at, nickname, type, date_added_to_gree
 
   return data;
 };
+
+
+
 
 const fetchPlantType = async (plantTypeId) => {
   const { data, error } = await supabase
@@ -81,9 +81,11 @@ const fetchPlantTypeByName = async (plantTypeName) => {
 
   if (error) throw error;
   console.log("supabaseService: plant type by name: ", data);
+
+
+
   return data;
 };
-
 
 
 const addNoteForPlant = async (plantId, noteText) => {

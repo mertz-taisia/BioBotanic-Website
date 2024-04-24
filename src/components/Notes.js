@@ -16,6 +16,9 @@ function Notes() {
       try {
         const plant = await fetchPlantInGreenhouse();
         setCurrentPlant(plant);
+        
+        console.log("plant id:  ", plant.id);
+
         if (plant) {
           const notes = await fetchNotesForPlant(plant.id);
           setNotes(notes);
@@ -54,7 +57,6 @@ function Notes() {
     };
     
   
-  
 
   const handleAddNoteClick = () => {
     setAddingNote(true);
@@ -76,6 +78,7 @@ function Notes() {
       console.error('Invalid date string:', isoString);
       return "Invalid date";
     }
+    
 
     const nth = (day) => {
       if (day > 3 && day < 21) return 'th';
@@ -86,6 +89,7 @@ function Notes() {
         default: return "th";
       }
     };
+    
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
@@ -95,8 +99,6 @@ function Notes() {
     const monthName = monthNames[monthIndex];
     return `${monthName} ${day}${nth(day)}`;
   };
-  
-
 
     return (
         <div class="w-full h-full bg-white rounded-md flex flex-col text-left justify-left p-4">

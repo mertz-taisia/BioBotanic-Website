@@ -17,7 +17,7 @@ import { fetchPlantType } from '../supabaseService.js';
 const plantImages = {
     "Basil": Basil,
     "Snake Plant": SnakePlant,
-    "Golden Pathos": GoldenPothos,
+    "Golden Pothos": GoldenPothos,
     "Aloe Vera": AloeVera,    
     "Spider Plant": SpiderPlant,
     "Peace Lily": PeaceLily,

@@ -1,6 +1,58 @@
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+
 function SensorCard() {
 
-    return (
+  const [data, setData] = useState('')
+  const [moisture, setMoisture] = useState('');
+    const [brightness, setBrightness] = useState('');
+
+  const parseInput = (input) => {
+      const parts = input.split(' ');
+      //console.log(parts)
+      if (parts.length === 4) {
+          const m = parseInt(parts[1]);
+          const j = parseInt(parts[3]);
+          console.log(m,j)
+          if (!isNaN(m) && !isNaN(j)) {
+              setMoisture(m);
+              setBrightness(j);
+              console.log(moisture)
+              console.log(brightness)
+          } else {
+              console.error("Invalid numbers provided");
+          }
+      } else {
+          console.error("Input must be in the format 'm n b j'");
+      }
+  };
+
+  const fetchData = async () => {
+    try {
+      // Define the URL of your server
+      const serverUrl = 'http://localhost:8000/data'; // Assuming your server is running locally on port 3000
+
+      // Fetch data from the server
+      const response = await fetch(serverUrl);
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // Parse response as text
+
+      setData(await response.text());
+      parseInput(data)
+      console.log('Data from server:', data);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  fetchData()
+    
+  return (
         <div class="flex w-full h-full bg-white rounded-md">
           <div class="flex flex-row w-1/3 justify-center items-center">
             <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -9,7 +61,7 @@ function SensorCard() {
 
             <div class="flex flex-col ml-4">
               <div>Lighting</div>
-              <div>70%</div>
+              <div>{Math.abs(brightness-255)/255}%</div>
             </div>
           </div>
           <div class="flex flex-row w-1/3 justify-center items-center">
@@ -28,7 +80,7 @@ function SensorCard() {
 
             <div class="flex flex-col ml-4">
               <div>Soil Moisture</div>
-              <div>20%</div>
+              <div>{parseInt(moisture/10)}%</div>
             </div>
           </div>
           <div class="flex flex-row w-1/3 justify-center items-center">

@@ -62,7 +62,7 @@ function LandingPage() {
                     <div className="flex flex-row items-center justify-center w-full h-full">
                         <div className="w-2/3 h-full p-1">
                           <div class="w-full h-full bg-white rounded-md">
-                            <img class="h-full rounded-md" src={SampleCamera}></img>
+                            <img class="h-full rounded-md" src="http://raspberrypi.local:8080/?action=stream"></img>
                           </div>
                         </div>
                         <div className="w-1/3 h-full p-1">
